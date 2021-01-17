@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+            <title>短信服务</title>
+            <style> 
+     body {text-align: center}
+    </style>
+    </head>
+
+    <body>
+
+        <script>
+            function send()
+            {         
+                //send phone number
+                m = document.getElementById("mobile").value;                
+                var httpRequest = new XMLHttpRequest();                
+                httpRequest.open("POST", "http://127.0.0.1:8000/api/v1/send", true);
+                httpRequest.setRequestHeader("Content-type","application/json");
+                var obj = {mobile: m, id: "10"};                     
+                httpRequest.send(JSON.stringify(obj));                             
+                
+                httpRequest.onreadystatechange = function() {                    
+                    if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                        var json = httpRequest.responseText;
+                        window.alert(json);
+                    }
+                }
+            }
+            
+            function check()
+            {
+                //send code
+                c = document.getElementById("check").value;
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.open('POST', '127.0.0.1/api/v1/check', true);
+                httpRequest.setRequestHeader("Content-type","application/json");
+                var obj = {code: c, id: "10"};
+                httpRequest.send(JSON.stringify(obj)); 
+
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                        var json = httpRequest.responseText;
+                        console.log(json);
+                    }
+                }
+            }
+
+        </script>
+
+    <style type="text/css">
+    body
+    {   
+    background-color:#d0e4fe;
+    }                      
+    </style>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        手机号: <input id="mobile" type="text"> 
+        <input type="button" onclick="send()" value="submit">    
+        <br><br><br>
+        验证码: <input id="check" type="text">
+        <input type="button" onclick="check()" value="submit">
+
+    </body>
+</html>
